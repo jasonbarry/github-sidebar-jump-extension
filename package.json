@@ -18,7 +18,8 @@
 			"browser",
 			"webextensions"
 		],
-		"prettier": true
+		"prettier": true,
+		"space": true
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo"
