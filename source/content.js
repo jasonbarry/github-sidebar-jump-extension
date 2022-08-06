@@ -1,3 +1,5 @@
+// https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari
+
 function tableOfComments() {
 	const $ = (qs, el) => (el || document).querySelector(qs);
 	const $$ = (qs, el) => (el || document).querySelectorAll(qs);
@@ -38,7 +40,7 @@ function tableOfComments() {
 			}px;vertical-align:text-bottom" width="16" />
           <a href="${href}" style="margin-left:2px">${userName}</a>
           <time style="color:#999;font-size:12px;margin-left:2px">${timestamp}</time>
-          <span style="font-size:12px;margin-right:2px">${uniqueEmojis
+          <span style="font-size:12px;margin-left:2px">${uniqueEmojis
 						.map((emoji) => `<span>${emoji}</span>`)
 						.join("")}</span>
         </div>
@@ -48,7 +50,7 @@ function tableOfComments() {
 		});
 
 		const container = `
-      <div id="minimap-container" style="margin-top:32px;position:sticky;top:72px;max-height:calc(100vh - 96px);overflow:auto">
+      <div id="minimap-container" style="padding-top:16px;position:sticky;top:58px;max-height:calc(100vh - 80px);overflow:auto;border-top: 1px solid var(--color-border-muted);margin-top: 16px;">
         <div class="discussion-sidebar-heading text-bold">Comments</div>
         ${minimap.join("")}
       </div>
