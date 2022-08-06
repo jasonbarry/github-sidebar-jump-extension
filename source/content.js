@@ -3,6 +3,7 @@
 ;(() => {
   const PAGE_REGEX = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/[\d]+/
   const CONTAINER_ID = 'sidebar-comments-index'
+  const GH_STICKY_HEADER_HEIGHT = 68
   const $ = (el, qs) => el.querySelector(qs)
   const $$ = (el, qs) => el.querySelectorAll(qs)
 
@@ -39,33 +40,22 @@
       const uniqueEmojis = [...new Set(emojis)]
 
       const row = `
-          <p style="margin-bottom:4px">
-            <img height="16" src="${avatarURL}" style="border-radius:${
-        isBot ? 3 : 16
-      }px;vertical-align:text-bottom" width="16" />
-            <a href="${href}" style="margin-left:2px">${userName}</a>
-            <time style="color:var(--color-fg-muted);font-size:12px;margin-left:2px">${timestamp}</time>
-            <span>${uniqueEmojis.map(emoji => `<span style="margin-left:2px">${emoji}</span>`).join('')}</span>
-          </p>
-        `
+        <p>
+          <img height="16" src="${avatarURL}" style="border-radius:${isBot ? 3 : 16}px;" width="16" />
+          <a class="sidebar-jump" href="${href}" style="margin-left:2px">${userName}</a>
+          <time>${timestamp}</time>
+          <span>${uniqueEmojis.map(emoji => `<span style="margin-left:2px">${emoji}</span>`).join('')}</span>
+        </p>
+      `
 
       minimap.push(row)
     })
 
-    const containerStyles = [
-      'border-top: 1px solid var(--color-border-muted)',
-      'margin-top: 16px',
-      'max-height: calc(100vh - 80px)',
-      'overflow: auto',
-      'padding-top: 16px',
-      'position: sticky',
-      'top: 58px',
-    ]
     const container = `
-      <div id="${CONTAINER_ID}" style="${containerStyles.join(';')}">
+      <div id="${CONTAINER_ID}">
         <div class="discussion-sidebar-heading text-bold">
           Comments
-          <kbd style="margin-left:8px">shift ⬆/⬇</kbd>
+          <kbd>shift ⬆/⬇</kbd>
         </div>
         ${minimap.join('')}
       </div>
@@ -92,32 +82,46 @@
   })
 
   document.addEventListener('keydown', event => {
-    const HEADER_HEIGHT = 68
     const BUFFER = 8
     const { key, shiftKey } = event
     if (shiftKey && ['ArrowDown', 'ArrowUp'].includes(key)) {
       if (!PAGE_REGEX.test(location.href)) {
         return
       }
-      const links = $$(document, `#${CONTAINER_ID} a`)
-      const anchors = Array.prototype.map.call(links, link => link.href)
+      const links = Array.from($$(document, `#${CONTAINER_ID} a`))
       if (key === 'ArrowUp') {
-        anchors.reverse()
+        links.reverse()
       }
-      anchors.every(anchor => {
+      links.every(link => {
+        const anchor = link.href
         const [, id] = anchor.split('#')
         const comment = document.getElementById(id)
         const { top } = comment.getBoundingClientRect()
         if (
-          (key === 'ArrowDown' && top > HEADER_HEIGHT + BUFFER) ||
-          (key === 'ArrowUp' && top < HEADER_HEIGHT - BUFFER)
+          (key === 'ArrowDown' && top > GH_STICKY_HEADER_HEIGHT + BUFFER) ||
+          (key === 'ArrowUp' && top < GH_STICKY_HEADER_HEIGHT - BUFFER)
         ) {
-          window.scrollBy(0, top - HEADER_HEIGHT)
+          window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
+          link.focus()
           history.replaceState({}, '', `#${id}`)
           return false
         }
+        // link.classList.remove('active-indicator')
         return true
       })
+    }
+  })
+
+  document.addEventListener('click', event => {
+    const link = event.target
+    if (link.classList.contains('sidebar-jump')) {
+      event.preventDefault()
+      const [, id] = link.href.split('#')
+      const comment = document.getElementById(id)
+      const { top } = comment.getBoundingClientRect()
+      window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
+      // link.parentNode.classList.add('active-indicator')
+      history.replaceState({}, '', `#${id}`)
     }
   })
 })()

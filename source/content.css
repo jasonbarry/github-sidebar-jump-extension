@@ -1,0 +1,36 @@
+#sidebar-comments-index {
+  border-top: 1px solid var(--color-border-muted);
+  margin-top: 16px;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+  padding-top: 16px;
+  position: sticky;
+  top: 58px;
+  padding-left: 8px;
+  margin-left: -8px;
+}
+
+#sidebar-comments-index kbd {
+  color: var(--color-fg-muted);
+  margin-left: 8px;
+}
+
+#sidebar-comments-index p {
+  margin-bottom: 4px;
+}
+
+#sidebar-comments-index img {
+  vertical-align: text-bottom;
+}
+
+#sidebar-comments-index a:focus,
+#sidebar-comments-index a:focus-visible {
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+#sidebar-comments-index time {
+  color: var(--color-fg-muted);
+  font-size: 12px;
+  margin-left: 2px;
+}
