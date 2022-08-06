@@ -2,7 +2,7 @@
 // xcrun safari-web-extension-converter distribution/
 ;(() => {
   const PAGE_REGEX = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/[\d]+/
-  const CONTAINER_ID = 'sidebar-comments-index'
+  const CONTAINER_ID = 'sidebar-jump-index'
   const GH_STICKY_HEADER_HEIGHT = 68
   const $ = (el, qs) => el.querySelector(qs)
   const $$ = (el, qs) => el.querySelectorAll(qs)
@@ -106,7 +106,6 @@
           history.replaceState({}, '', `#${id}`)
           return false
         }
-        // link.classList.remove('active-indicator')
         return true
       })
     }
@@ -120,7 +119,6 @@
       const comment = document.getElementById(id)
       const { top } = comment.getBoundingClientRect()
       window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
-      // link.parentNode.classList.add('active-indicator')
       history.replaceState({}, '', `#${id}`)
     }
   })
