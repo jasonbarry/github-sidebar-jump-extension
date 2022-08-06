@@ -1,4 +1,5 @@
 // https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari
+// xcrun safari-web-extension-converter distribution/
 
 function tableOfComments() {
 	const $ = (qs, el) => (el || document).querySelector(qs);
@@ -39,9 +40,9 @@ function tableOfComments() {
 				isBot ? 3 : 16
 			}px;vertical-align:text-bottom" width="16" />
           <a href="${href}" style="margin-left:2px">${userName}</a>
-          <time style="color:#999;font-size:12px;margin-left:2px">${timestamp}</time>
-          <span style="font-size:12px;margin-left:2px">${uniqueEmojis
-						.map((emoji) => `<span>${emoji}</span>`)
+          <time style="color:var(--color-fg-muted);font-size:12px;margin-left:2px">${timestamp}</time>
+          <span>${uniqueEmojis
+						.map((emoji) => `<span style="margin-left:2px">${emoji}</span>`)
 						.join("")}</span>
         </div>
       `;
@@ -65,7 +66,8 @@ function tableOfComments() {
 }
 
 document.addEventListener("turbo:load", () => {
-	const regex = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pull|issue)\/[\d]+/;
+	const regex =
+		/^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/[\d]+/;
 	if (regex.test(location.href)) {
 		tableOfComments();
 	}
