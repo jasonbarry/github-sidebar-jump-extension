@@ -16,7 +16,7 @@
       '.ajax-pagination-form',
     ]
     const comments = $$(document, querySelectors.join(','))
-    comments.forEach(comment => {
+    comments.forEach((comment, i) => {
       // for showing the "Load more items..." pagination, insert a break
       if ($(comment, '.ajax-pagination-btn')) {
         minimap.push(`<div class="pagination-loader-container" style="height:24px"></div>`)
@@ -30,7 +30,7 @@
       }
 
       // also skip resolved comments
-      if ($(comment.parentNode, 'details[data-resolved="true"]')) {
+      if (i > 0 && $(comment.parentNode, 'details[data-resolved="true"]')) {
         return
       }
 
@@ -40,7 +40,7 @@
       const href = date.href
       const timestamp = $(date, 'relative-time')?.innerText
 
-      const emojiElements = $$(comment.parentNode, '.js-comment-reactions-options g-emoji')
+      const emojiElements = $$(comment, '.js-comment-reactions-options g-emoji')
       const emojis = Array.prototype.map.call(emojiElements, emoji => emoji.innerText)
       const uniqueEmojis = [...new Set(emojis)]
 
