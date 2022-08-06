@@ -40,7 +40,7 @@
       const href = date.href
       const timestamp = $(date, 'relative-time')?.innerText
 
-      const emojiElements = $$(comment, '.js-comment-reactions-options g-emoji')
+      const emojiElements = $$(comment.parentNode, '.js-comment-reactions-options g-emoji')
       const emojis = Array.prototype.map.call(emojiElements, emoji => emoji.innerText)
       const uniqueEmojis = [...new Set(emojis)]
 
