@@ -1,37 +1,12 @@
-# browser-extension-template
+# github-sidebar-jump-extension
 
-[link-rgh]: https://github.com/sindresorhus/refined-github
-[link-ngh]: https://github.com/sindresorhus/notifier-for-github
-[link-hfog]: https://github.com/sindresorhus/hide-files-on-github
-[link-tsconfig]: https://github.com/sindresorhus/tsconfig
-[link-options-sync]: https://github.com/fregante/webext-options-sync
-[link-cws-keys]: https://github.com/fregante/chrome-webstore-upload/blob/main/How%20to%20generate%20Google%20API%20keys.md
-[link-amo-keys]: https://addons.mozilla.org/en-US/developers/addon/api/key
-
-> Cross-browser extension boilerplate - barebones template with Parcel 2, options handler and auto-publishing.
-
-Screenshot of extension options:
-
-![Sample extension options output](media/previewer.png)
-
-## Features
-
-- Uses Manifest v3 ([not yet compatible with Firefox](https://bugzilla.mozilla.org/show_bug.cgi?id=1578284))
-- Use npm dependencies thanks to Parcel 2.
-- [Auto-syncing options](#auto-syncing-options).
-- [Auto-publishing](#publishing) with auto-versioning and support for manual releases.
+![icon](source/icon@2x.png)
 
 ## Getting started
 
-### 1️⃣ Create your own copy
-
-1. Click [<kbd>Use this template</kbd>](https://github.com/fregante/browser-extension-template/generate) to make a copy of your own. 😉
-
-Note: When you create a repository from the template, the [Template Clenup](.github/workflows/template-cleanup.yml) workflow will be triggered to delete and edit template-specific resources. Wait a moment until the workflow finishes (you will see a commit pushed with 'Template cleanup' message).
-
 ### 🛠 Build locally
 
-1. Checkout the copied repository to your local machine eg. with `git clone https://github.com/my-username/my-awesome-extension/`
+1. Checkout the repository to your local machine
 1. Run `npm install` to install all required dependencies
 1. Run `npm run build`
 
@@ -44,18 +19,11 @@ Using [web-ext](https://extensionworkshop.com/documentation/develop/getting-star
 1. Run `npm run watch` to watch for file changes and build continuously
 1. Run `npm install --global web-ext` (only only for the first time)
 1. In another terminal, run `web-ext run -t chromium`
-1. Check that the extension is loaded by opening the extension options ([in Firefox](media/extension_options_firefox.png) or [in Chrome](media/extension_options_chrome.png)).
+1. Check that the extension is loaded
 
 #### Manually
 
 You can also [load the extension manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).
-
-### ✏️ Make the first change
-
-1. For example, edit source\manifest.json to `"name": "My Awesome Extension",`
-1. Go back to your browser, reload and see the change take effect
-
-Note: Firefox will automatically reload content scripts when the extension is updated, Chrome requires you to reload the page to reload the content scripts.
 
 ### 📕 Read the documentation
 
@@ -63,7 +31,6 @@ Here are some websites you should refer to:
 
 - [Parcel’s Web Extension transformer documentation](https://parceljs.org/recipes/web-extension/)
 - [Chrome extensions’ API list](https://developer.chrome.com/docs/extensions/reference/)
-- A lot more links in my [Awesome WebExtensions](https://github.com/fregante/Awesome-WebExtensions) list
 
 ## Configuration
 
@@ -75,10 +42,6 @@ Being based on Parcel 2 and its [WebExtension transformer](https://parceljs.org/
 
 - Browserlist-based code transpiling (which defaults to just the latest Chrome and Firefox versions)
 - Automatically picks up any new file specified in `manifest.json`
-
-### Auto-syncing options
-
-Options are managed by [fregante/webext-options-sync][link-options-sync], which auto-saves and auto-restores the options form, applies defaults and runs migrations.
 
 ### Publishing
 
@@ -101,17 +64,3 @@ Thanks to the included [GitHub Action Workflows](.github/workflows), if you set 
 
 - on a schedule, by default [every week](.github/workflows/deploy-automatic.yml) (but only if there are any new commits in the last tag)
 - manually, by clicking ["Run workflow"](https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/) in the Actions tab.
-
-## Credits
-
-Extension icon made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0).
-
-## Extensions created using this template
-
-- [notlmn/copy-as-markdown](https://github.com/notlmn/copy-as-markdown) - Browser extension to copy hyperlinks, images, and selected text as Markdown.
-
-## License
-
-This browser extension template is released under [CC0](#license) and mentioned below. There is no `license` file included in here, but when you clone this template, you should include your own license file for the specific license you choose to use.
-
-[![CC0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
