@@ -29,6 +29,11 @@
         return
       }
 
+      // also skip resolved comments
+      if ($(comment.parentNode, 'details[data-resolved="true"]')) {
+        return
+      }
+
       const avatarURL = $(comment, '.avatar')?.src || $(comment, '.avatar img')?.src
       const userName = $(comment, 'strong a')?.innerText
       const isBot = /\/apps\//.test($(comment, 'strong a')?.href || '')
