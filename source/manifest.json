@@ -1,6 +1,6 @@
 {
 	"name": "GitHub Minimap by Netlify",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Add a table of contents to your GitHub issues and pull requests.",
 	"homepage_url": "https://github.com/netlify/github-minimap-extension",
 	"manifest_version": 3,

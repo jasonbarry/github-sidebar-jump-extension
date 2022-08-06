@@ -20,10 +20,15 @@ function tableOfComments() {
 				return;
 			}
 
+			// items without a date are minimized, so skip
+			const date = $("a.js-timestamp", item);
+			if (!date) {
+				return;
+			}
+
 			const avatarURL = $(".avatar", item).src || $(".avatar img", item).src;
 			const userName = $("strong a", item).innerText;
-			const isBot = /\/apps\//.test($("strong a", item).href);
-			const date = $("a.js-timestamp", item);
+			const isBot = /\/apps\//.test($("strong a", item)?.href || "");
 			const href = date.href;
 			const timestamp = $("relative-time", date).innerText;
 
@@ -62,7 +67,9 @@ function tableOfComments() {
 			containerNode.parentNode.removeChild(containerNode);
 		}
 		$(".Layout-sidebar").innerHTML += container;
-	} catch {}
+	} catch (error) {
+		console.error("GitHub Minimap error:", error);
+	}
 }
 
 document.addEventListener("turbo:load", () => {
