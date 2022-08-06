@@ -17,7 +17,8 @@
 		"envs": [
 			"browser",
 			"webextensions"
-		]
+		],
+		"prettier": true
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo"
