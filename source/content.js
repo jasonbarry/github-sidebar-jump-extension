@@ -1,9 +1,7 @@
-// https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari
-// xcrun safari-web-extension-converter distribution/
 ;(() => {
   const PAGE_REGEX = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/[\d]+/
   const CONTAINER_ID = 'sidebar-jump-index'
-  const GH_STICKY_HEADER_HEIGHT = 68
+  const GH_STICKY_HEADER_HEIGHT = 84
   const $ = (el, qs) => el.querySelector(qs)
   const $$ = (el, qs) => el.querySelectorAll(qs)
 
@@ -81,7 +79,7 @@
       try {
         tableOfComments()
       } catch (error) {
-        console.error('GitHub Minimap error:', error)
+        console.error('GitHub Sidebar Jump extension error:', error)
       }
     }
   })
@@ -97,17 +95,20 @@
       if (key === 'ArrowUp') {
         links.reverse()
       }
-      links.every(link => {
-        const anchor = link.href
-        const [, id] = anchor.split('#')
-        const comment = document.getElementById(id)
+      links.every((link, i) => {
+        const [, id] = link.href.split('#')
+        const comment = $(document, `#${id}-permalink`)
         const { top } = comment.getBoundingClientRect()
         if (
           (key === 'ArrowDown' && top > GH_STICKY_HEADER_HEIGHT + BUFFER) ||
           (key === 'ArrowUp' && top < GH_STICKY_HEADER_HEIGHT - BUFFER)
         ) {
           window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
-          link.focus()
+          // don't set focus on the link to the first comment, as
+          // it interferes with scrolling since the sticky sidebar will be out of viewport
+          if ((key === 'ArrowDown' && i > 0) || (key === 'ArrowUp' && i < links.length - 1)) {
+            link.focus()
+          }
           history.replaceState({}, '', `#${id}`)
           return false
         }
@@ -121,7 +122,7 @@
     if (link.classList.contains('sidebar-jump')) {
       event.preventDefault()
       const [, id] = link.href.split('#')
-      const comment = document.getElementById(id)
+      const comment = $(document, `#${id}-permalink`)
       const { top } = comment.getBoundingClientRect()
       window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
       history.replaceState({}, '', `#${id}`)
