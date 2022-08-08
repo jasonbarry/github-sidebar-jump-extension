@@ -1,9 +1,9 @@
 ;(() => {
-  const PAGE_REGEX = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/[\d]+/
+  const PAGE_REGEX = /^https:\/\/github.com\/[\w-]+\/[\w-]+\/(pulls?|issues?)\/\d+/
   const CONTAINER_ID = 'sidebar-jump-index'
   const GH_STICKY_HEADER_HEIGHT = 84
-  const $ = (el, qs) => el.querySelector(qs)
-  const $$ = (el, qs) => el.querySelectorAll(qs)
+  const $ = (element, qs) => element.querySelector(qs)
+  const $$ = (element, qs) => element.querySelectorAll(qs)
 
   function tableOfComments() {
     const minimap = []
@@ -14,32 +14,32 @@
       '.ajax-pagination-form',
     ]
     const comments = $$(document, querySelectors.join(','))
-    comments.forEach((comment, i) => {
-      // for showing the "Load more items..." pagination, insert a break
+    for (const [i, comment] of comments.entries()) {
+      // For showing the "Load more items..." pagination, insert a break
       if ($(comment, '.ajax-pagination-btn')) {
         minimap.push(`<div class="pagination-loader-container" style="height:24px"></div>`)
-        return
+        continue
       }
 
-      // comments without a date are minimized, so skip
+      // Comments without a date are minimized, so skip
       const date = $(comment, 'a.js-timestamp')
       if (!date) {
-        return
+        continue
       }
 
-      // also skip resolved comments
+      // Also skip resolved comments
       if (i > 0 && $(comment.parentNode, 'details[data-resolved="true"]')) {
-        return
+        continue
       }
 
       const avatarURL = $(comment, '.avatar')?.src || $(comment, '.avatar img')?.src
-      const userName = $(comment, 'strong a')?.innerText
+      const userName = $(comment, 'strong a')?.textContent
       const isBot = /\/apps\//.test($(comment, 'strong a')?.href || '')
       const href = date.href
-      const timestamp = $(date, 'relative-time')?.innerText
+      const timestamp = $(date, 'relative-time')?.textContent
 
       const emojiElements = $$(comment, '.js-comment-reactions-options g-emoji')
-      const emojis = Array.prototype.map.call(emojiElements, emoji => emoji.innerText)
+      const emojis = Array.prototype.map.call(emojiElements, emoji => emoji.textContent)
       const uniqueEmojis = [...new Set(emojis)]
 
       const row = `
@@ -52,7 +52,7 @@
       `
 
       minimap.push(row)
-    })
+    }
 
     const container = `
       <div id="${CONTAINER_ID}">
@@ -64,13 +64,13 @@
       </div>
     `
 
-    // cleanup before inserting just in case
-    const containerNode = document.getElementById(CONTAINER_ID)
+    // Cleanup before inserting just in case
+    const containerNode = $(document, `#${CONTAINER_ID}`)
     if (containerNode) {
-      containerNode.parentNode.removeChild(containerNode)
+      containerNode.remove()
     }
 
-    // insert node
+    // Insert node
     $(document, '.Layout-sidebar').innerHTML += container
   }
 
@@ -91,10 +91,12 @@
       if (!PAGE_REGEX.test(location.href)) {
         return
       }
+
       const links = Array.from($$(document, `#${CONTAINER_ID} a`))
       if (key === 'ArrowUp') {
         links.reverse()
       }
+
       links.every((link, i) => {
         const [, id] = link.href.split('#')
         const comment = $(document, `#${id}-permalink`)
@@ -104,14 +106,16 @@
           (key === 'ArrowUp' && top < GH_STICKY_HEADER_HEIGHT - BUFFER)
         ) {
           window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
-          // don't set focus on the link to the first comment, as
+          // Don't set focus on the link to the first comment, as
           // it interferes with scrolling since the sticky sidebar will be out of viewport
           if ((key === 'ArrowDown' && i > 0) || (key === 'ArrowUp' && i < links.length - 1)) {
             link.focus()
           }
+
           history.replaceState({}, '', `#${id}`)
           return false
         }
+
         return true
       })
     }
