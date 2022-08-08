@@ -86,7 +86,7 @@
 
   document.addEventListener('keydown', event => {
     const BUFFER = 8
-    const { key, shiftKey } = event
+    const {key, shiftKey} = event
     if (shiftKey && ['ArrowDown', 'ArrowUp'].includes(key)) {
       if (!PAGE_REGEX.test(location.href)) {
         return
@@ -100,7 +100,7 @@
       links.every((link, i) => {
         const [, id] = link.href.split('#')
         const comment = $(document, `#${id}-permalink`)
-        const { top } = comment.getBoundingClientRect()
+        const {top} = comment.getBoundingClientRect()
         if (
           (key === 'ArrowDown' && top > GH_STICKY_HEADER_HEIGHT + BUFFER) ||
           (key === 'ArrowUp' && top < GH_STICKY_HEADER_HEIGHT - BUFFER)
@@ -127,7 +127,7 @@
       event.preventDefault()
       const [, id] = link.href.split('#')
       const comment = $(document, `#${id}-permalink`)
-      const { top } = comment.getBoundingClientRect()
+      const {top} = comment.getBoundingClientRect()
       window.scrollBy(0, top - GH_STICKY_HEADER_HEIGHT)
       history.replaceState({}, '', `#${id}`)
     }
