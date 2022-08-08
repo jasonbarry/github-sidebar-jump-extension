@@ -1,6 +1,7 @@
 # github-sidebar-jump-extension
 
-![icon](source/icon@2x.png)
+![screenshot in light mode](media/light.png#gh-light-mode-only)
+![screenshot in dark mode](media/dark.png#gh-dark-mode-only)
 
 ## Getting started
 

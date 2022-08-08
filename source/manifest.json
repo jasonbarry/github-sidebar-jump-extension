@@ -1,6 +1,6 @@
 {
 	"name": "GitHub Sidebar Jump",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Add a table of contents to the sidebar of your GitHub issues and pull requests.",
 	"homepage_url": "https://github.com/jasonbarry/github-sidebar-jump-extension",
 	"manifest_version": 3,
